@@ -176,7 +176,7 @@ class CorrelationsApp(QtGui.QMainWindow):
 
 if __name__ == "__main__":
     app = QtGui.QApplication([])
-    file_name = str(QtGui.QFileDialog.getOpenFileName())
+    file_name = unicode(QtGui.QFileDialog.getOpenFileName())
     with open(file_name) as in_file:
         df = pd.read_csv(in_file,na_values="#NULL!",index_col=0)
     main_window = CorrelationsApp(df)
