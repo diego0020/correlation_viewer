@@ -24,3 +24,11 @@ This is just a prototype, and therefore there are a lot of expectations about th
 * Matplotlib
 * Seaborn
 * PyQt4
+
+## Warning
+
+The P values reported are not corrected by any means. There is a big chance of finding false positives. Also remember correlation doesn't imply causality.
+
+Some interesting links about this:
+http://tylervigen.com/discover
+http://xkcd.com/882/
