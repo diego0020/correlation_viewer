@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\Diego\Programas\braviz\pyTanic\braviz\interaction\qt_guis\correlations.ui'
+# Form implementation generated from reading ui file '.\correlations_gui.ui'
 #
-# Created: Fri May 09 15:25:41 2014
+# Created: Sun May 11 20:30:32 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -63,8 +63,6 @@ class Ui_correlation_app(object):
         self.menubar = QtGui.QMenuBar(correlation_app)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1285, 26))
         self.menubar.setObjectName(_fromUtf8("menubar"))
-        self.menuFile = QtGui.QMenu(self.menubar)
-        self.menuFile.setObjectName(_fromUtf8("menuFile"))
         correlation_app.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(correlation_app)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -73,9 +71,6 @@ class Ui_correlation_app(object):
         self.actionSave_Scenario.setObjectName(_fromUtf8("actionSave_Scenario"))
         self.actionLoad_Scenario = QtGui.QAction(correlation_app)
         self.actionLoad_Scenario.setObjectName(_fromUtf8("actionLoad_Scenario"))
-        self.menuFile.addAction(self.actionSave_Scenario)
-        self.menuFile.addAction(self.actionLoad_Scenario)
-        self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(correlation_app)
         QtCore.QMetaObject.connectSlotsByName(correlation_app)
@@ -83,7 +78,6 @@ class Ui_correlation_app(object):
     def retranslateUi(self, correlation_app):
         correlation_app.setWindowTitle(_translate("correlation_app", "Correlations", None))
         self.label.setText(_translate("correlation_app", "Select Variables:", None))
-        self.menuFile.setTitle(_translate("correlation_app", "File", None))
         self.actionSave_Scenario.setText(_translate("correlation_app", "Save Scenario", None))
         self.actionLoad_Scenario.setText(_translate("correlation_app", "Load Scenario", None))
 
