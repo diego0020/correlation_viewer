@@ -136,6 +136,7 @@ class RegFigure(FigureCanvas):
         if isinstance(event.artist,matplotlib.collections.PathCollection):
             index = event.ind
             message_pieces=[]
+            #if the pick involves different subjects
             for i in index:
                 datum = self.df.iloc[[i]]
                 message = "Subject %s\n%s : %g\n%s : %g"%\
