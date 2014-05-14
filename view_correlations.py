@@ -135,15 +135,19 @@ class RegFigure(FigureCanvas):
         QtGui.QToolTip.hideText()
         if isinstance(event.artist,matplotlib.collections.PathCollection):
             index = event.ind
-            datum = self.df.iloc[index]
-            message = "Subject %s\n%s : %g\n%s : %g"%\
+            message_pieces=[]
+            for i in index:
+                datum = self.df.iloc[[i]]
+                message = "Subject %s\n%s : %g\n%s : %g"%\
                       (datum.index[0],
                        datum.columns[0],datum.iloc[0,0],
                        datum.columns[1],datum.iloc[0,1],)
+                message_pieces.append(message)
+            big_message="\n\n".join(message_pieces)
             _,height = self.get_width_height()
             point = QtCore.QPoint(event.mouseevent.x,height-event.mouseevent.y)
             g_point = self.mapToGlobal(point)
-            QtGui.QToolTip.showText(g_point,message)
+            QtGui.QToolTip.showText(g_point,big_message)
 
 
 class CorrelationsApp(QtGui.QMainWindow):
