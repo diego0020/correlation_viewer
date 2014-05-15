@@ -78,6 +78,14 @@
      <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionSave_Matrix"/>
+    <addaction name="actionSave_Scatter"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSave_Scenario">
@@ -88,6 +96,16 @@
   <action name="actionLoad_Scenario">
    <property name="text">
     <string>Load Scenario</string>
+   </property>
+  </action>
+  <action name="actionSave_Matrix">
+   <property name="text">
+    <string>Save Matrix</string>
+   </property>
+  </action>
+  <action name="actionSave_Scatter">
+   <property name="text">
+    <string>Save Scatter</string>
    </property>
   </action>
  </widget>

@@ -177,11 +177,21 @@ class CorrelationsApp(QtGui.QMainWindow):
 
         self.cor_mat.SquareSelected.connect(self.reg_plot.draw_reg)
 
+        self.ui.actionSave_Matrix.triggered.connect(self.save_matrix)
+        self.ui.actionSave_Scatter.triggered.connect(self.save_reg)
 
+    def save_matrix(self):
+        filename = unicode(QtGui.QFileDialog.getSaveFileName(self,
+                                                             "Save Matrix",".","PDF (*.pdf);;PNG (*.png);;svg (*.svg)"))
+        self.cor_mat.f.savefig(filename)
+    def save_reg(self):
+        filename = unicode(QtGui.QFileDialog.getSaveFileName(self,
+                                                             "Save Scatter",".","PDF (*.pdf);;PNG (*.png);;svg (*.svg)"))
+        self.reg_plot.f.savefig(filename)
 
 if __name__ == "__main__":
     app = QtGui.QApplication([])
-    file_name = unicode(QtGui.QFileDialog.getOpenFileName())
+    file_name = unicode(QtGui.QFileDialog.getOpenFileName(None,"Select Data",".","csv (*.csv)"))
     with open(file_name) as in_file:
         df = pd.read_csv(in_file,na_values="#NULL!",index_col=0)
     main_window = CorrelationsApp(df)
