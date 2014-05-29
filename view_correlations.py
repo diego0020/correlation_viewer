@@ -192,12 +192,14 @@ class CorrelationsApp(QtGui.QMainWindow):
 if __name__ == "__main__":
     app = QtGui.QApplication([])
     file_name = unicode(QtGui.QFileDialog.getOpenFileName(None,"Select Data",".","csv (*.csv)"))
-    with open(file_name) as in_file:
-        df = pd.read_csv(in_file,na_values="#NULL!",index_col=0)
-    if len(df.columns) == 0:
-        #try again with "french" excel defaults
+    try:
         with open(file_name) as in_file:
-            df = pd.read_csv(in_file,na_values="#NULL!",index_col=0,sep=";",decimal=",")
+            df = pd.read_csv(in_file,na_values="#NULL!",index_col=0)
+    except Exception:
+        df = None
+    if df is None or len(df.columns) == 0:
+        #try again with "french" excel defaults
+        df = pd.read_csv(file_name,index_col=0,sep=";",decimal=",")
 
     main_window = CorrelationsApp(df)
     main_window.show()
