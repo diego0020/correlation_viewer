@@ -194,6 +194,11 @@ if __name__ == "__main__":
     file_name = unicode(QtGui.QFileDialog.getOpenFileName(None,"Select Data",".","csv (*.csv)"))
     with open(file_name) as in_file:
         df = pd.read_csv(in_file,na_values="#NULL!",index_col=0)
+    if len(df.columns) == 0:
+        #try again with "french" excel defaults
+        with open(file_name) as in_file:
+            df = pd.read_csv(in_file,na_values="#NULL!",index_col=0,sep=";",decimal=",")
+
     main_window = CorrelationsApp(df)
     main_window.show()
     app.exec_()
