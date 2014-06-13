@@ -97,7 +97,12 @@ class RegFigure(FigureCanvas):
         self.draw_initial_message()
         self.mpl_connect("motion_notify_event",self.motion_to_pick)
         self.mpl_connect("pick_event",self.draw_tooltip)
+        self.hidden_subjs = set()
         self.df = None
+        self.df2 = None
+        self.dfh = None
+        self.scatter_h_artist=None
+        self.limits = None
 
 
     def draw_initial_message(self):
@@ -113,20 +118,45 @@ class RegFigure(FigureCanvas):
         #print df
         self.ax.clear()
         plt.sca(self.ax)
-        y_name,x_name = df.columns
-        x_vals=df[x_name].get_values()
-        y_vals=df[y_name].get_values()
         plt.sca(self.ax)
         df = df.dropna()
         self.df = df.copy()
-        sns.regplot(y_name,x_name,df,ax=self.ax,scatter_kws={"picker":5,})
+        plt.tight_layout()
+        self.limits = None
+        self.ax.set_xlim(auto=True)
+        self.ax.set_ylim(auto=True)
+        self.re_draw_reg()
+
+
+    def re_draw_reg(self):
+        self.ax.clear()
+        i2 = [i for i in self.df.index if i not in self.hidden_subjs]
+        df2 = self.df.loc[i2]
+        self.df2 = df2
+        y_name,x_name = df2.columns
+        x_vals=df2[x_name].get_values()
+        y_vals=df2[y_name].get_values()
+        sns.regplot(x_name,y_name,df2,ax=self.ax,scatter_kws={"picker":5,})
         mat = np.column_stack((x_vals,y_vals))
         mat = mat[np.all(np.isfinite(mat),1),]
         m,b,r,p,e = scipy.stats.linregress(mat)
-        #print e
-        plot_title = "r=%.2f\np=%.5g"%(r,p)
+        plot_title = "r=%.2f       p=%.5g"%(r,p)
         self.ax.set_title(plot_title)
-        plt.tight_layout()
+        #print e
+        self.ax.set_title(plot_title)
+
+        if self.limits is not None:
+            xl,yl = self.limits
+            self.ax.set_xlim(xl[0],xl[1],auto=False)
+            self.ax.set_ylim(yl[0],yl[1],auto=False)
+        else:
+            self.limits = (self.ax.get_xlim(),self.ax.get_ylim())
+        ih = [i for i in self.df.index if i in self.hidden_subjs]
+        dfh = self.df.loc[ih]
+        self.dfh = dfh
+        current_color = matplotlib.rcParams["axes.color_cycle"][0]
+        self.scatter_h_artist=self.ax.scatter(dfh[x_name].get_values(),dfh[y_name].get_values(),
+                                              edgecolors=current_color,facecolors="None",urls=ih,picker=2)
         self.draw()
 
     def motion_to_pick(self,event):
@@ -134,12 +164,17 @@ class RegFigure(FigureCanvas):
 
     def draw_tooltip(self,event):
         QtGui.QToolTip.hideText()
+        mouse_event = event.mouseevent
         if isinstance(event.artist,matplotlib.collections.PathCollection):
             index = event.ind
             message_pieces=[]
             #if the pick involves different subjects
+            if event.artist == self.scatter_h_artist:
+                dfp = self.dfh
+            else:
+                dfp = self.df2
             for i in index:
-                datum = self.df.iloc[[i]]
+                datum = dfp.iloc[[i]]
                 message = "Subject %s\n%s : %g\n%s : %g"%\
                       (datum.index[0],
                        datum.columns[0],datum.iloc[0,0],
@@ -150,6 +185,17 @@ class RegFigure(FigureCanvas):
             point = QtCore.QPoint(event.mouseevent.x,height-event.mouseevent.y)
             g_point = self.mapToGlobal(point)
             QtGui.QToolTip.showText(g_point,big_message)
+            if mouse_event.button == 1:
+                if len(index) == 1:
+                    name = datum.index[0]
+                    if event.artist == self.scatter_h_artist:
+                        print "recovering %s"%name
+                        self.hidden_subjs.remove(name)
+                    else:
+                        print "hidding %s"%name
+                        self.hidden_subjs.add(name)
+                    self.re_draw_reg()
+
 
     def selection_changed(self,selection):
         if self.df is None:
@@ -161,6 +207,8 @@ class RegFigure(FigureCanvas):
             self.df = None
             self.draw_initial_message()
 
+    def handle_clicks(self,event):
+        pass
 
 class CorrelationsApp(QtGui.QMainWindow):
     def __init__(self,data_frame):
