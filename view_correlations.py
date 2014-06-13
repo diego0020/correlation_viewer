@@ -101,6 +101,7 @@ class RegFigure(FigureCanvas):
 
 
     def draw_initial_message(self):
+        self.ax.clear()
         message = "Click in the correlation matrix"
         self.ax.text(0.5, 0.5, message, horizontalalignment='center',
                      verticalalignment='center', fontsize=16)
@@ -150,6 +151,16 @@ class RegFigure(FigureCanvas):
             g_point = self.mapToGlobal(point)
             QtGui.QToolTip.showText(g_point,big_message)
 
+    def selection_changed(self,selection):
+        if self.df is None:
+            return
+        sel_set = set(selection)
+        current_vars = set(self.df.columns)
+        if not current_vars <= sel_set:
+            #current vars are not contained in current selection
+            self.df = None
+            self.draw_initial_message()
+
 
 class CorrelationsApp(QtGui.QMainWindow):
     def __init__(self,data_frame):
@@ -170,6 +181,7 @@ class CorrelationsApp(QtGui.QMainWindow):
         self.ui.cor_mat_frame.setLayout(self.ui.cor_layout)
         self.ui.cor_layout.addWidget(self.cor_mat)
         self.vars_model.CheckedChanged.connect(self.cor_mat.set_variables)
+        self.vars_model.CheckedChanged.connect(self.reg_plot.selection_changed)
 
         self.ui.reg_layout = QtGui.QHBoxLayout()
         self.ui.reg_frame.setLayout(self.ui.reg_layout)
