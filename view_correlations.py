@@ -201,9 +201,13 @@ class CorrelationsApp(QtGui.QMainWindow):
                                                              "Save Scatter",".","PDF (*.pdf);;PNG (*.png);;svg (*.svg)"))
         self.reg_plot.f.savefig(filename)
 
+def remove_non_ascii(s):
+    return str("".join(i for i in s if ord(i)<128))
+
 if __name__ == "__main__":
     app = QtGui.QApplication([])
-    file_name = unicode(QtGui.QFileDialog.getOpenFileName(None,"Select Data",".","csv (*.csv)"))
+    qt_name = QtGui.QFileDialog.getOpenFileName(None,"Select Data",".","csv (*.csv)")
+    file_name = str(qt_name.toAscii())
     try:
         with open(file_name) as in_file:
             df = pd.read_csv(in_file,na_values="#NULL!",index_col=0)
@@ -213,6 +217,7 @@ if __name__ == "__main__":
         #try again with "french" excel defaults
         df = pd.read_csv(file_name,index_col=0,sep=";",decimal=",")
 
+    df.columns = map(remove_non_ascii,df.columns)
     main_window = CorrelationsApp(df)
     main_window.show()
     app.exec_()
