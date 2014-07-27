@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Correlation viewer : A simple application for interactively exploring correlations in a data set" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Correlation viewer</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/diego0020/correlation_viewer">View on GitHub</a>
+
+          <h1 id="project_title">Correlation viewer</h1>
+          <h2 id="project_tagline">A simple application for interactively exploring correlations in a data set</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/diego0020/correlation_viewer/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/diego0020/correlation_viewer/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="correlation_viewer" class="anchor" href="#correlation_viewer"><span class="octicon octicon-link"></span></a>correlation_viewer</h1>
+
+<p>A simple application for interactively exploring correlations in a data set. It is built using PyQt4, Matplotlib and Seaborns. It illustrates how this libraries can be used for interactively exploring data.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Just run the view_correlations.py script. The main screen should look like this</p>
+
+<p><img src="screen_shot.PNG"></p>
+
+<p>Use the left-most panel to select variables, the middle panel will show a correlation matrix with this variables. You may hover over the squares to get some additional information. If you click on one of the squares, an scatter plot will appear in the right panel.</p>
+
+<h2>
+<a name="input-file-format" class="anchor" href="#input-file-format"><span class="octicon octicon-link"></span></a>Input file format</h2>
+
+<p>This is just a prototype, and therefore there are a lot of expectations about the input file. It should be a .csv file with "," as separator. The first column will be used as index for the rows. </p>
+
+<h2>
+<a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+
+<ul>
+<li>Numpy</li>
+<li>SciPy</li>
+<li>Pandas</li>
+<li>Matplotlib</li>
+<li>Seaborn</li>
+<li>PyQt4</li>
+</ul><h2>
+<a name="warning" class="anchor" href="#warning"><span class="octicon octicon-link"></span></a>Warning</h2>
+
+<p>The P values reported are not corrected by any means. There is a big chance of finding false positives. Also remember correlation doesn't imply causality.</p>
+
+<p>Some interesting links about this:</p>
+
+<p><a href="http://tylervigen.com/discover">http://tylervigen.com/discover</a></p>
+
+<p><a href="http://xkcd.com/882/">http://xkcd.com/882/</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Correlation viewer maintained by <a href="https://github.com/diego0020">diego0020</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
